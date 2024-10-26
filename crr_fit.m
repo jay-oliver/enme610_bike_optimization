@@ -11,5 +11,5 @@ options = optimoptions('fsolve');
 options.MaxIterations = 1000;
 options.MaxFunctionEvaluations = 5000;
 y  = fsolve(equations, x0, options)
-y = [0.0014 1.6336 -0.0576 5.4576];
+%y = [0.0014 1.6336 -0.0576 5.4576];
 coefficient = crr_calc(15, 29, y)
