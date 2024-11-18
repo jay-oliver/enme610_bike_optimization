@@ -1,3 +1,4 @@
+import crr_calc.m
 
 crr = [0.00231 0.00249 0.00276 0.00327];
 p = [8.3 6.9 5.5 4.1];
@@ -12,4 +13,4 @@ options.MaxIterations = 1000;
 options.MaxFunctionEvaluations = 5000;
 y  = fsolve(equations, x0, options)
 %y = [0.0014 1.6336 -0.0576 5.4576];
-coefficient = crr_calc(15, 29, y)
+coefficient = crr(15, 29, y)

@@ -1,2 +1,0 @@
-function c = crr_calc(v, p, y)
-    c = y(1) + (1/p(1))*(y(2) + y(3)*(v/y(4))^2)
