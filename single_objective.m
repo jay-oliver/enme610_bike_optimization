@@ -15,6 +15,9 @@ y = [0.0014 1.6336 -0.0576 5.4576];
 
 % ==Trails== %
 crr = y(1) + (1/p(1))*(y(2) + y(3)*(v/y(4))^2);
+crr_a = crr;
+crr_c = 0.5 * crr;
+crr_g = 2 * crr;
 W = x*crr*m*g*cosd(theta);
 %m is mass, using 70 kg
 Met = W/(m*3.5)
