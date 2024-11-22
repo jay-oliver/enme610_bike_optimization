@@ -30,18 +30,19 @@ Eff_Eq=@(x)( ...
     Efficiency)
 
 options = optimset('MaxFunEvals',1000);
-[x,resnorm] = lsqnonlin(Eff_Eq,x0,[],1,[],[])
+[x,resnorm] = lsqnonlin(Eff_Eq,x0,[],1,[],[]);
 format short
+
+% Efficiency Evaluation(Coefficients, Gear Ratio (unitless), Input Power (W))
+Ex1=Eff_Eval(x,1.25,200)
+Ex2=Eff_Eval(x,4.25,50)
 
 
 % Testing Eval 
-syms GR P
-Eff_Eval=(x(1)*GR^3 + ...
-    x(2)*(GR^2)*P + ...
-    x(3)*GR*(P^2)+ ...
-    x(4)*P^3 + ...
-    x(5));
-
-Eff_Eval=subs(Eff_Eval, GR, 3);
-Eff_Eval=subs(Eff_Eval,P,120);
-Eff_Eval=double(Eff_Eval)
+function Efficiency=Eff_Eval(x,GR,P)
+    Efficiency=(x(1)*GR^3 + ...
+        x(2)*(GR^2)*P + ...
+        x(3)*GR*(P^2)+ ...
+        x(4)*P^3 + ...
+        x(5));
+end
