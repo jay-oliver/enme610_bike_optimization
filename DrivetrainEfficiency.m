@@ -35,7 +35,7 @@ format short
 
 % Efficiency Evaluation(Coefficients, Gear Ratio (unitless), Input Power (W))
 Ex1=Eff_Eval(x,1.25,200)
-Ex2=Eff_Eval(x,4.25,50)
+Ex2=Eff_Eval(x,4.25,80)
 
 
 % Testing Eval 
