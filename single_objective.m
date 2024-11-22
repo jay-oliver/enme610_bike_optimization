@@ -8,11 +8,11 @@
 W = x*crr*m*g*cosd(theta)
 
 % ==Power Equivalence== %
-% Power for acceleration 
+% Power for acceleration (should we aim for this to be zero) 
 Pa = V_roll * m_total * accel 
 % Power needed to roll 
 Pr = V_roll * m_total * g * Crr
-% Power to overcome drag
+% Power to overcome drag (Cd * A may be ~=1) 
 Pd = (1/2) * rho * V_roll^3 * Cd * A
 % Power needed to go on a slope (s>0 means uphill)
 Ps = V_roll * m_total * g * s
@@ -21,3 +21,4 @@ Pa==P_user - (Pd + Ps + Pr)
 % maybe rearrange to minimize power input from the user?
 % also, include effiency from the drive train that affects user power "eta"
 P_user == (Pa + Pd + Ps + Pr) / eta
+
