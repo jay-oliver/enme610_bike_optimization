@@ -22,3 +22,4 @@ Pa==P_user - (Pd + Ps + Pr)
 % also, include effiency from the drive train that affects user power "eta"
 P_user == (Pa + Pd + Ps + Pr) / eta
 
+% ==Time Calculation==
