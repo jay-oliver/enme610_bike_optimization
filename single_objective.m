@@ -63,6 +63,3 @@ Pa==P_user - (Pd + Ps + Pr)
 % maybe rearrange to minimize power input from the user?
 % also, include effiency from the drive train that affects user power "eta"
 P_user == (Pa + Pd + Ps + Pr) / eta
-
-% ==Velocity Calculation== 
-
