@@ -3,7 +3,17 @@
 %-----------%
 g = 9.81;
 m = 70;
-
+% B -- Berwyn
+% UP -- University Park
+% MS -- Metro Station
+% WH -- Washington Hall
+% LP -- La Plata
+% GG -- Graduate Gardens
+% MRR -- Metzerott Road Residences
+% Each array of three corresponds to three sections of a trail, 0s are used
+% where a trail has fewer than three sections. For example
+% trailsTheta.B_clark[1] is the theta value for the first cosd(theta) and
+% sind(theta), trailsTheta.B_clark[2] corresponds to the second, etc
 trailsTheta = struct('B_clark', {[0, 0, 0]}, 'B_lib', {[0, 0, 0]}, 'B_stamp', {[2.6, 0, 0]}, 'B_smith', {[2.6, -1.56, 0]}, 'B_clarice', {[2.6, 0, 0]}, 'B_eppley', {[4.2, 0, 0]},...
               'UP_clark', {[0, 0, 0]}, 'UP_lib', {[0.88, 0, 0]}, 'UP_stamp', {[0.88, 0, 0]}, 'UP_smith', {[3.38, 0, 0]}, 'UP_clarice', {[0.88, 0, 0]}, 'UP_eppley', {[0.88, -0.84, 0]},...
               'MS_clark', {[0, 0, 0]}, 'MS_lib', {[2.6, 0, 0]}, 'MS_stamp', {[2.6, 0, 0]}, 'MS_smith', {[2.29, -2, 0]}, 'MS_clarice', {[1.71, 0, 0]}, 'MS_eppley', {[4.2, 0, 0]},...
@@ -34,7 +44,8 @@ crr=0.0014 + (1/p)*(1.6336 + -0.0576*(v/5.4576)^2);
 crr_a = crr;
 crr_c = 0.5 * crr;
 crr_g = 2 * crr;
-W = x*m*g*(crr*cosd(theta) + sind(theta));
+%x from trailsX, theta from trailsTheta
+W = x*m*g*(crr*cosd(theta(1)) + sind(theta(1))) + x*m*g*(crr*cosd(theta(2)) + sind(theta(2))) + x*m*g*(crr*cosd(theta(3)) + sind(theta(3)));
 %m is mass, using 70 kg
 Met = W/(m*3.5)
 
