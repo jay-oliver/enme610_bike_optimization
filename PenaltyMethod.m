@@ -1,9 +1,9 @@
 % Penalty Method Script 
 clear
 clc
-
+%% Little sandbox to see how changing r works (Delete before submission)
 % Penalty method turns a constrained problem into an unconstrained problem 
-% phi(x,r)=f(x)+r*P(x) where P(x)= sum(max(0,g(x))^2) + sum(h(x)^2))
+% phi(x,r)=f(x)+r*P(x) where P(x)= sum(g(x)^2) + sum(h(x)^2))
 
 % To test this, lets use a sample set from class 
 f=@(x) (x(1)-1).^2 + (x(2)-2).^2;
@@ -19,13 +19,4 @@ phi=@(x) f([x(1),x(2)]) + ri*(g1([x(1),x(2)]))^2;
 xi=[0,0]; % Doing an exterior penalty method, assuming r to be high
 [x,fx]=fminunc(phi,xi)
 
-% Actual function to start modifying the penalty value
-% BHJay_Ext_Penalty
-% (function, initial input, end_condition, adjustment factor)
-function [opt_x,opt_f]=BHJay_Ext_Penalty(func,p_func,xi,end_con,alpha)
-    eta=end_con;
-    a=alpha; 
-    r=1;
-    phi=func+r*p_func;
-    [xi,fi]=fminunc(phi,xi)
-end
+%% Actual thing
