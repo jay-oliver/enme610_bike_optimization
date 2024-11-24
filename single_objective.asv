@@ -3,7 +3,8 @@
 %-----------%
 g = 9.81;
 m = 70;
-<<<<<<< HEAD
+p = 26;
+v=25;
 % B -- Berwyn
 % UP -- University Park
 % MS -- Metro Station
@@ -12,7 +13,9 @@ m = 70;
 % GG -- Graduate Gardens
 % MRR -- Metzerott Road Residences
 % Each array of three corresponds to three sections of a trail, 0s are used
-% where a trail has fewer than three sections. For example 
+% where a trail has fewer than three sections. For example
+% trailsTheta.B_clark[1] is the theta value for the first cosd(theta) and
+% sind(theta), trailsTheta.B_clark[2] corresponds to the second, etc
 trailsTheta = struct('B_clark', {[0, 0, 0]}, 'B_lib', {[0, 0, 0]}, 'B_stamp', {[2.6, 0, 0]}, 'B_smith', {[2.6, -1.56, 0]}, 'B_clarice', {[2.6, 0, 0]}, 'B_eppley', {[4.2, 0, 0]},...
               'UP_clark', {[0, 0, 0]}, 'UP_lib', {[0.88, 0, 0]}, 'UP_stamp', {[0.88, 0, 0]}, 'UP_smith', {[3.38, 0, 0]}, 'UP_clarice', {[0.88, 0, 0]}, 'UP_eppley', {[0.88, -0.84, 0]},...
               'MS_clark', {[0, 0, 0]}, 'MS_lib', {[2.6, 0, 0]}, 'MS_stamp', {[2.6, 0, 0]}, 'MS_smith', {[2.29, -2, 0]}, 'MS_clarice', {[1.71, 0, 0]}, 'MS_eppley', {[4.2, 0, 0]},...
@@ -28,23 +31,15 @@ trailsX = struct('B_clark', {[1609.34, 0, 0]}, 'B_lib', {[2253.08, 0, 0]}, 'B_st
            'LP_clark', {[850, 437.47, 0]}, 'LP_lib', {[850, 598.41, 0]}, 'LP_stamp', {[850, 100, 337.47]}, 'LP_smith', {[1770.27, 0, 0]}, 'LP_clarice', {[643.74, 0, 0]}, 'LP_eppley', {[49.99, 0, 0]},...
            'GG_clark', {[350, 1600, 303.08]}, 'GG_lib', {[350, 1259.34, 0]}, 'GG_stamp', {[1300, 631.21, 0]}, 'GG_smith', {[900, 226.54, 0]}, 'GG_clarice', {[1200, 892.14, 0]}, 'GG_eppley', {[350, 2546.81, 0]},...
            'MRR_clark', {[3400, 301.48, 0]}, 'MRR_lib', {[3400, 1100, 0]}, 'MRR_stamp', {[3400, 1100, 0]}, 'MRR_smith', {[3400, 1300, 288.95]}, 'MRR_clarice', {[450, 1100, 1700]}, 'MRR_eppley', {[450, 1100, 900]});
-=======
-trailsTheta = [[0, 0, 0], [0, 0, 0], [2.6, 0, 0], [2.6, -1.56, 0], [2.6, 0, 0], 4.2, 0, 0];
-               [0, 0, 0], [0.88, 0, 0], [0.88, 0, 0], [3.38, 0, 0], [0.88, 0, 0], [0.88, -0.84, 0];
-               [0, 0, 0], [2.6, 0, 0], [2.6, 0, 0], [2.29, -2, 0], [1.71, 0, 0], [4.2, 0, 0];
-               [-1.31, 0, 0], [0, 0, 0], [2.29, 0, 0], [0, 0, 0], [0, 0, 0], [1.37, 0, 0];
-               [-1.48, 0, 0], [-1.48, 0, 0], [-1.48, 5.14, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0];
-               [1.8, -0.79, 0], [1.8, 0, 0], [0.93, 0, 0], [0.83, 0, 0], [0.9, 0, 0], [1.8, 0, 0];
-               [-0.35, 0, 0], [-0.35, 1.35, 0], [-0.35, 1.72, 0], [-0.35, 1.45, 0], [1.9, -1.35, 0.64], [1.9, -1.35, 1.15]]
-trailsX = [[1609.34, 0, 0], [2253.08, 0, 0], [550, 1703.08, 0], [550, 400, 1785], [550, 2185.88, 0], [489, 1925.01, 0];
-           [4345.22, 0, 0], [1300, 2240.55, 0], [1300, 2562.42, 0], [220, 1872, 0], [1300, 2562.42, 0], [1300, 750, 2134.28];
-           [1609.34, 0, 0], [550, 1542.14, 0], [650, 400, 1364.01], [400, 2496.81, 0], [489, 3212.48, 0];
-           [1000, 400, 0], [643.74, 0, 0], [200, 604.67, 0], [482.80, 0, 0], [1609.34, 0, 0], [250, 1359.34, 0];
-           [850, 437.47, 0], [850, 598.41, 0], [850, 100, 337.47], [1770.27, 0, 0], [643.74, 0, 0], [49.99, 0, 0];
-           [350, 1600, 303.08], [350, 1259.34, 0], [1300, 631.21, 0], [900, 226.54, 0], [1200, 892.14, 0], [350, 2546.81, 0];
-           [3400, 301.48, 0], [3400, 1100, 0], [3400, 1100, 0], [3400, 1300, 288.95], [450, 1100, 1700], [450, 1100, 900]]
->>>>>>> 08d9ea0fce066ea15ce7d2168e934dc0f2a39fc5
 
+% trailsE = struct('B_clark', {}, 'B_lib', {}, 'B_stamp', {}, 'B_smith', {}, 'B_clarice', {}, 'B_eppley', {},...
+%            'UP_clark', {}, 'UP_lib', {}, 'UP_stamp', {}, 'UP_smith', {}, 'UP_clarice', {}, 'UP_eppley', {},...
+%            'MS_clark', {}, 'MS_lib', {}, 'MS_stamp', {}, 'MS_smith', {}, 'MS_clarice', {}, 'MS_eppley', {},...
+%            'WH_clark', {}, 'WH_lib', {}, 'WH_stamp', {}, 'WH_smith', {}, 'WH_clarice', {}, 'WH_eppley', {},...
+%            'LP_clark', {}, 'LP_lib', {}, 'LP_stamp', {}, 'LP_smith', {}, 'LP_clarice', {}, 'LP_eppley', {},...
+%            'GG_clark', {}, 'GG_lib', {}, 'GG_stamp', {}, 'GG_smith', {}, 'GG_clarice', {}, 'GG_eppley', {},...
+%            'MRR_clark', {}, 'MRR_lib', {}, 'MRR_stamp', {}, 'MRR_smith', {}, 'MRR_clarice', {}, 'MRR_eppley', {});
+trailsE = zeros([42, 1])
 %crr for concrete is 1/2x asphalt, gravel is 2x asphalt, crr conversion is
 %based on asphalt
 
@@ -59,7 +54,12 @@ crr=0.0014 + (1/p)*(1.6336 + -0.0576*(v/5.4576)^2);
 crr_a = crr;
 crr_c = 0.5 * crr;
 crr_g = 2 * crr;
-W = x*m*g*(crr*cosd(theta) + sind(theta));
+%x from trailsX, theta from trailsTheta
+%Work = x*m*g*(crr*cosd(theta(1)) + sind(theta(1))) + x*m*g*(crr*cosd(theta(2)) + sind(theta(2))) + x*m*g*(crr*cosd(theta(3)) + sind(theta(3)));
+fields = fieldnames(trailsX)
+for i = 1:length(fields)
+    trailsE(i) = trailsX.(name)(1)*m*g*(crr*cosd(trailsTheta.(name)(1)) + sind(trailsTheta.(name)(1))) + trailsX.(name)(2)*m*g*(crr*cosd(trailsTheta.(name)(2)) + sind(trailsTheta.(name)(2))) + trailsX.(name)(3)*m*g*(crr*cosd(trailsTheta.(name)(3)) + sind(trailsTheta.(name)(3)))
+end
 %m is mass, using 70 kg
 Met = W/(m*3.5)
 
@@ -77,6 +77,3 @@ Pa==P_user - (Pd + Ps + Pr)
 % maybe rearrange to minimize power input from the user?
 % also, include effiency from the drive train that affects user power "eta"
 P_user == (Pa + Pd + Ps + Pr) / eta
-
-% ==Velocity Calculation== 
-

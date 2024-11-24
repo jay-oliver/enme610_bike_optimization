@@ -3,6 +3,8 @@
 %-----------%
 g = 9.81;
 m = 70;
+p = 26;
+v=25;
 % B -- Berwyn
 % UP -- University Park
 % MS -- Metro Station
@@ -30,6 +32,14 @@ trailsX = struct('B_clark', {[1609.34, 0, 0]}, 'B_lib', {[2253.08, 0, 0]}, 'B_st
            'GG_clark', {[350, 1600, 303.08]}, 'GG_lib', {[350, 1259.34, 0]}, 'GG_stamp', {[1300, 631.21, 0]}, 'GG_smith', {[900, 226.54, 0]}, 'GG_clarice', {[1200, 892.14, 0]}, 'GG_eppley', {[350, 2546.81, 0]},...
            'MRR_clark', {[3400, 301.48, 0]}, 'MRR_lib', {[3400, 1100, 0]}, 'MRR_stamp', {[3400, 1100, 0]}, 'MRR_smith', {[3400, 1300, 288.95]}, 'MRR_clarice', {[450, 1100, 1700]}, 'MRR_eppley', {[450, 1100, 900]});
 
+% trailsE = struct('B_clark', {}, 'B_lib', {}, 'B_stamp', {}, 'B_smith', {}, 'B_clarice', {}, 'B_eppley', {},...
+%            'UP_clark', {}, 'UP_lib', {}, 'UP_stamp', {}, 'UP_smith', {}, 'UP_clarice', {}, 'UP_eppley', {},...
+%            'MS_clark', {}, 'MS_lib', {}, 'MS_stamp', {}, 'MS_smith', {}, 'MS_clarice', {}, 'MS_eppley', {},...
+%            'WH_clark', {}, 'WH_lib', {}, 'WH_stamp', {}, 'WH_smith', {}, 'WH_clarice', {}, 'WH_eppley', {},...
+%            'LP_clark', {}, 'LP_lib', {}, 'LP_stamp', {}, 'LP_smith', {}, 'LP_clarice', {}, 'LP_eppley', {},...
+%            'GG_clark', {}, 'GG_lib', {}, 'GG_stamp', {}, 'GG_smith', {}, 'GG_clarice', {}, 'GG_eppley', {},...
+%            'MRR_clark', {}, 'MRR_lib', {}, 'MRR_stamp', {}, 'MRR_smith', {}, 'MRR_clarice', {}, 'MRR_eppley', {});
+trailsE = zeros([42, 1])
 %crr for concrete is 1/2x asphalt, gravel is 2x asphalt, crr conversion is
 %based on asphalt
 
@@ -45,7 +55,12 @@ crr_a = crr;
 crr_c = 0.5 * crr;
 crr_g = 2 * crr;
 %x from trailsX, theta from trailsTheta
-W = x*m*g*(crr*cosd(theta(1)) + sind(theta(1))) + x*m*g*(crr*cosd(theta(2)) + sind(theta(2))) + x*m*g*(crr*cosd(theta(3)) + sind(theta(3)));
+%Work = x*m*g*(crr*cosd(theta(1)) + sind(theta(1))) + x*m*g*(crr*cosd(theta(2)) + sind(theta(2))) + x*m*g*(crr*cosd(theta(3)) + sind(theta(3)));
+%Get energy required by each trail
+fields = fieldnames(trailsX)
+for i = 1:length(fields)
+    trailsE(i) = trailsX.(name)(1)*m*g*(crr*cosd(trailsTheta.(name)(1)) + sind(trailsTheta.(name)(1))) + trailsX.(name)(2)*m*g*(crr*cosd(trailsTheta.(name)(2)) + sind(trailsTheta.(name)(2))) + trailsX.(name)(3)*m*g*(crr*cosd(trailsTheta.(name)(3)) + sind(trailsTheta.(name)(3)))
+end
 %m is mass, using 70 kg
 Met = W/(m*3.5)
 
