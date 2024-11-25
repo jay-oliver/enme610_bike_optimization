@@ -6,17 +6,20 @@ p = [3.7 3.1 2.6 1.9]; %bar
 v = 29; %kph
 equations = @(x) x(1) + (1./p)*(x(2) + x(3)*(v/x(4))^2) - crr
 
-x0 = [1, 2, 0, 2];
+x0 = [1, 1, 0, 1];
 options = optimoptions('fsolve'); 
-options.MaxIterations = 1000;
-options.MaxFunctionEvaluations = 5000;
+options.MaxIterations = 10000;
+options.MaxFunctionEvaluations = 50000;
 y  = fsolve(equations, x0, options)
+crr_t=y(1) + (1./p(1))*(y(2) + y(3)*(v/y(4))^2)
 
 %Syntax is (tire pressure in bar, rolling speed in kph)
-Example_1=c_roll_resist(4,30)
+% Test calling the function 
+clear
+import c_roll_resist.*
+tp=[35,40,45,50]; %psi 
+tp=tp./14.504; %bar
+tv=[29 29 29 29]; %kph
+tv=tv./(3600/1000); %m/s
+Ex1=c_roll_resist(tp,tv)
 
-% Defining the coefficient of rolling resistance as a function
-function coeff_rolling=c_roll_resist(pressure,velocity)
-    x=[0.4898,3.1070,-0.0057,1.0556]; %Coefficients grabbed for mountain bike
-    coeff_rolling = x(1) + (1./pressure)*(x(2) + x(3)*(velocity/x(4))^2);
-end
