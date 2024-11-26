@@ -15,8 +15,8 @@ import c_roll_resist.*
 crr_test=c_roll_resist(p,v)
 
 % Efficiency Evaluation 
-import Eff_Eval.*
-Eff_test=Eff_Eval(GR)/100
+import eff_eval.*
+Eff_test=eff_eval(GR)/100
 
 % Power 
 import power_total.*
@@ -24,7 +24,7 @@ import power_total.*
 Power_test=power_total(v,GR,p,m,s) %Spits out power in W
 
 % Trail energy, the energy needed to get over our trails 
-import Trail_Energy.*
+import trail_energy.*
 % m is in kg, p is in psi, v is in m/s
-TE_Ex=Trail_Energy(m,p,v)
+TE_Ex=trail_energy(m,p,v)
 

@@ -1,5 +1,5 @@
 % Trail Energy Offset 
-function TE=Trail_Energy(m,p,v)
+function TE=trail_energy(m,p,v)
     g=9.81; %m/s^2, gravity constant 
     % Trail Data 
     % B -- Berwyn
