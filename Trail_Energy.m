@@ -1,56 +1,5 @@
-%% Function setup: This script is more or less for our own logical use, it will not have formulations 
-% Objectives: Power (at any moment), Time to commute 
-% Design Varis: Gear Ratio,  Tire Width, Effort
-clear
-clc
-
-%% include other scripts 
-cd 
-import c_roll_resist.*
-import Eff_eval.*
-
-% ===Testing functions===
-% Power 
-v = 18; % mph, target rolling velocity 
-v = v/2.237; % m/s
-GR=2.5; % Gear Ratio 
-p=60; %psi 
-p=p/14.504; %bar 
-m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
-Power_test=Power(v,GR,p,m,0.01)
-
-
-%% Function dump 
-
-% MET conversion eq (inputs are power and weight)
-function Metabolic_Equivalent=MET(Power,Weight)
-    Metabolic_Equivalent=Power/(Weight*3.5);
-end
-
-% Power formulation
-function total_power=Power(V_roll, Gear_Ratio, Tire_Pressure,m_total,s)
-    rho=1.225; %kg/m3 , air pressure at stp 
-    g=9.81; %m/s2
-    % Power for acceleration (should we aim for this to be zero) 
-    accel=0; %Acceleration set to 0, we're just keeping formulation for reading reasons
-    Pa = V_roll * m_total * accel;
-    % Power needed to roll 
-    Pr = V_roll * m_total * g * c_roll_resist(Tire_Pressure,V_roll);
-    % Power to overcome drag (Cd * A may be ~=1) 
-    Cd=1;
-    A=1; 
-    Pd = (1/2) * rho * V_roll^3 * Cd * A;
-    % Power needed to go on a slope (s>0 means uphill)
-    Ps = V_roll * m_total * g * s
-    % Total power assembly, with user power 
-    % Pa==(P_user*(Eff_Eval(Gear_Ratio)/100)) - (Pd + Ps + Pr)
-    % Assuming we want acceleration to be 0, here it the formulation to
-    % minimize user power input 
-    total_power=(Pd + Ps + Pr + Pa)/(Eff_Eval(Gear_Ratio)*(1/100));
-end
-
 % Trail Energy Offset 
-function Trail_Energy=Trail_Energy(m, p, v)
+function TE=Trail_Energy(m,p,v)
     g=9.81; %m/s^2, gravity constant 
     % Trail Data 
     % B -- Berwyn
@@ -79,7 +28,8 @@ function Trail_Energy=Trail_Energy(m, p, v)
            'LP_clark', {[850, 437.47, 0]}, 'LP_lib', {[850, 598.41, 0]}, 'LP_stamp', {[850, 100, 337.47]}, 'LP_smith', {[1770.27, 0, 0]}, 'LP_clarice', {[643.74, 0, 0]}, 'LP_eppley', {[49.99, 0, 0]},...
            'GG_clark', {[350, 1600, 303.08]}, 'GG_lib', {[350, 1259.34, 0]}, 'GG_stamp', {[1300, 631.21, 0]}, 'GG_smith', {[900, 226.54, 0]}, 'GG_clarice', {[1200, 892.14, 0]}, 'GG_eppley', {[350, 2546.81, 0]},...
            'MRR_clark', {[3400, 301.48, 0]}, 'MRR_lib', {[3400, 1100, 0]}, 'MRR_stamp', {[3400, 1100, 0]}, 'MRR_smith', {[3400, 1300, 288.95]}, 'MRR_clarice', {[450, 1100, 1700]}, 'MRR_eppley', {[450, 1100, 900]});
-    trailsE = zeros([42, 1]);
+    TE = zeros([42, 1]);
+    
     % ==Trails== %
     crr=c_roll_resist(p,v);
     crr_a = crr;
@@ -93,7 +43,7 @@ function Trail_Energy=Trail_Energy(m, p, v)
     fields = string(fields);
     for i = 1:length(fields)
         name=fields(i);
-        trailsE(i) = trailsX.(name)(1)*m*g*(crr*cosd(trailsTheta.(name)(1)) + ...
+        TE(i) = trailsX.(name)(1)*m*g*(crr*cosd(trailsTheta.(name)(1)) + ...
         sind(trailsTheta.(name)(1))) + ...
         trailsX.(name)(2)*m*g*(crr*cosd(trailsTheta.(name)(2)) + ...
         sind(trailsTheta.(name)(2))) + ...
