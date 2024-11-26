@@ -20,8 +20,8 @@ Eff_test=Eff_Eval(GR)/100
 
 % Power 
 import power_total.*
-% v in m/s, GR in unitless, p in bar, m in kg, s in unitless
-Power_test=power_total(v,GR,p,m,s) %Spits out power in W
+% v in m/s, GR in unitless, p in bar, m in kg
+Power_test=power_total(v,GR,p,m) %Spits out power in W
 
 % Trail energy, the energy needed to get over our trails 
 import Trail_Energy.*
