@@ -10,21 +10,29 @@ p=60; %psi
 m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
 s=0.05; % slope, used for characterizing hills
 
+% Loading the trail data file, to then pull out individual trails
+load('Trail_Data.mat');
+fields = fieldnames(trailsX);
+fields = string(fields);
+
 % Coeff_Rolling_Resist (made this one arrayable)
 import c_roll_resist.*
 crr_test=c_roll_resist(p,v)
 
 % Efficiency Evaluation 
-import Eff_Eval.*
-Eff_test=Eff_Eval(GR)/100
+import eff_eval.*
+Eff_test=eff_eval(GR)/100
 
 % Power 
 import power_total.*
 % v in m/s, GR in unitless, p in bar, m in kg
-Power_test=power_total(v,GR,p,m) %Spits out power in W
+Power_test=power_total(trailsTheta.(fields(10)),v,GR,p,m) %Spits out power in W
 
 % Trail energy, the energy needed to get over our trails 
-import Trail_Energy.*
+import trail_energy.*
 % m is in kg, p is in psi, v is in m/s
-TE_Ex=Trail_Energy(m,p,v)
+TE_Ex=trail_energy(m,p,v)
 
+% Time for each section of the trail 
+import trail_time.*
+%trails_time
