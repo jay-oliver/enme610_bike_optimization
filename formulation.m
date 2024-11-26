@@ -80,7 +80,6 @@ function Trail_Energy=Trail_Energy(name, m, p)
            'GG_clark', {[350, 1600, 303.08]}, 'GG_lib', {[350, 1259.34, 0]}, 'GG_stamp', {[1300, 631.21, 0]}, 'GG_smith', {[900, 226.54, 0]}, 'GG_clarice', {[1200, 892.14, 0]}, 'GG_eppley', {[350, 2546.81, 0]},...
            'MRR_clark', {[3400, 301.48, 0]}, 'MRR_lib', {[3400, 1100, 0]}, 'MRR_stamp', {[3400, 1100, 0]}, 'MRR_smith', {[3400, 1300, 288.95]}, 'MRR_clarice', {[450, 1100, 1700]}, 'MRR_eppley', {[450, 1100, 900]});
     trailsE = zeros([42, 1]);
-    
     % ==Trails== %
     crr=c_roll_resist(p,v);
     crr_a = crr;
