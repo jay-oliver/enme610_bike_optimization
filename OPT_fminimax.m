@@ -28,7 +28,7 @@ import eff_eval.*
 load("Trail_Data.mat");
 fields = fieldnames(trailsX);
 fields = string(fields);
-test_i=10;
+test_i=12;
 
 % Using a matrix "d" where each element is a different variables 
 % d(1)=v_roll, d(2)=gr, d(3)=p
@@ -43,9 +43,22 @@ power_total_opt=@(d) sum(power_total(trailsTheta.(fields(test_i)),d(1),d(2),d(3)
 f_opt=@(d) [energy_total_opt(d),power_total_opt(d)];
 options=optimset('Algorithm','active-set');
 [Opt_DV,Opt_Objs]=fminimax(f_opt,di,[],[],[],[],lb,ub,@nonlincon,options)
+disp(" ")
+disp("  ====== Fminimax Results ======")
+disp(" ")
+disp("  Trail: University Park to Eppley")
+disp("  Optimal velocity: " + Opt_DV(1) + " m/s")
+disp("  Optimal gear ratio (calculated): " + Opt_DV(2))
+disp("  Optimal tire pressure: " + Opt_DV(3) + " bars")
+disp("  Power used in each section:")
 
-Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m)
-Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m)
+Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m);
+
+disp("   Section 1: " + Optimal_Power_sections(1) + " W")
+disp("   Section 2: " + Optimal_Power_sections(2) + " W")
+disp("   Section 3: " + Optimal_Power_sections(3) + " W")
+
+Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m);
 
 % We are also defining the efficiency equation to max out at 100ish
 function [c,ceq] = nonlincon(d)

@@ -25,7 +25,7 @@ import eff_eval.*
 load("Trail_Data.mat");
 fields = fieldnames(trailsX);
 fields = string(fields);
-test_i=10;
+test_i=35;
 
 % ==Numbers unique to penalty function implementation==
 % Initial penalty coefficient, one for ineq and one for eq
@@ -49,8 +49,20 @@ while abs(Opt_DV_a(1)-Opt_DV_b(1))>=e || abs(Opt_DV_a(2)-Opt_DV_b(2))>=e || abs(
     Opt_Phi_a=Opt_Phi_b;
     [Opt_DV_b,Opt_Phi_b]=fminunc(phi_r(r,test_i,trailsTheta.(fields(test_i)),m),di);
 end
-Optimal_Design_Variables=Opt_DV_b
-Optimal_Power_Sectioned=power_total(trailsTheta.(fields(test_i)),Opt_DV_b(1),Opt_DV_b(2),Opt_DV_b(3),m)
+Optimal_Design_Variables=Opt_DV_b;
+Optimal_Power_Sections=power_total(trailsTheta.(fields(test_i)),Opt_DV_b(1),Opt_DV_b(2),Opt_DV_b(3),m);
+disp(" ")
+disp("  ====== Penalty Method Results ======")
+disp(" ")
+disp("  Trail: Graduate Gardens to The Clarice")
+disp("  Optimal velocity: " + Opt_DV_b(1) + " m/s")
+disp("  Optimal gear ratio (calculated): " + Opt_DV_b(2))
+disp("  Optimal tire pressure: " + Opt_DV_b(3) + " bars")
+disp("  Power used in each section:")
+
+disp("   Section 1: " + Optimal_Power_Sections(1) + " W")
+disp("   Section 2: " + Optimal_Power_Sections(2) + " W")
+disp("   Section 3: " + Optimal_Power_Sections(3) + " W")
 %% Phi defined as a function so r can be modified 
 function phi=phi_r(r,test_i,trailsTheta,m,gr)
     phi=@(d) sum(power_total(trailsTheta,d(1),d(2),d(3),m)) + ...

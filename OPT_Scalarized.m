@@ -30,7 +30,7 @@ import eff_eval.*
 load("Trail_Data.mat");
 fields = fieldnames(trailsX);
 fields = string(fields);
-test_i=10;
+test_i=35;
 
 % Using a matrix "d" where each element is a different variables 
 % d(1)=v_roll, d(2)=gr, d(3)=p
@@ -73,9 +73,20 @@ f_opt=@(d) (5e-1*(1/e_avg)*energy_total_opt(d(1),d(2),d(3)))+(5e-1*(1/p_avg)*pow
 options=optimset('PlotFcn','optimplotFval');
 [Opt_DV,Opt_Objs]=fmincon(f_opt,di,[],[],[],[],lb,ub,@nonlincon,options)
 
-Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m)
-Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m)
+Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m);
+Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m);
+disp(" ")
+disp("  ====== Scalarization Results ======")
+disp(" ")
+disp("  Trail: Graduate Gardens to The Clarice")
+disp("  Optimal velocity: " + Opt_DV(1) + " m/s")
+disp("  Optimal gear ratio (calculated): " + Opt_DV(2))
+disp("  Optimal tire pressure: " + Opt_DV(3) + " bars")
+disp("  Power used in each section:")
 
+disp("   Section 1: " + Optimal_Power_sections(1) + " W")
+disp("   Section 2: " + Optimal_Power_sections(2) + " W")
+disp("   Section 3: " + Optimal_Power_sections(3) + " W")
 % We are also defining the efficiency equation to max out at 100ish
 function [c,ceq] = nonlincon(d)
     c(1)=eff_eval(d(2))-100;
