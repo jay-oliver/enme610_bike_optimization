@@ -42,15 +42,15 @@ di=[5,2.5,2.5];
 % Start the loop with 2 incorrect attempts to kickstart the cycle. 
 Opt_DV_a=di;
 Opt_Phi_a=0;
-[Opt_DV_b,Opt_Phi_b]=fminunc(phi_r(r,test_i,trailsTheta.(fields(test_i)),m),di);
+[Opt_DV_b,Opt_Phi_b]=fminunc(phi_r(r,test_i,trailsTheta.(fields(test_i)), trailsX.(fields(test_i)), m),di);
 while abs(Opt_DV_a(1)-Opt_DV_b(1))>=e || abs(Opt_DV_a(2)-Opt_DV_b(2))>=e || abs(Opt_DV_a(3)-Opt_DV_b(3))>=e
     r=r*a
     Opt_DV_a=Opt_DV_b;
     Opt_Phi_a=Opt_Phi_b;
-    [Opt_DV_b,Opt_Phi_b]=fminunc(phi_r(r,test_i,trailsTheta.(fields(test_i)),m),di);
+    [Opt_DV_b,Opt_Phi_b]=fminunc(phi_r(r,test_i,trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), m),di);
 end
 Optimal_Design_Variables=Opt_DV_b;
-Optimal_Power_Sections=power_total(trailsTheta.(fields(test_i)),Opt_DV_b(1),Opt_DV_b(2),Opt_DV_b(3),m);
+Optimal_Power_Sections=power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), Opt_DV_b(1),Opt_DV_b(2),Opt_DV_b(3),m);
 disp(" ")
 disp("  ====== Penalty Method Results ======")
 disp(" ")
@@ -64,8 +64,8 @@ disp("   Section 1: " + Optimal_Power_Sections(1) + " W")
 disp("   Section 2: " + Optimal_Power_Sections(2) + " W")
 disp("   Section 3: " + Optimal_Power_Sections(3) + " W")
 %% Phi defined as a function so r can be modified 
-function phi=phi_r(r,test_i,trailsTheta,m,gr)
-    phi=@(d) sum(power_total(trailsTheta,d(1),d(2),d(3),m)) + ...
+function phi=phi_r(r,test_i,trailsTheta,trailsX, m, gr)
+    phi=@(d) sum(power_total(trailsTheta,trailsX, d(1),d(2),d(3),m)) + ...
     r*(((1/(4.4704-d(1)))^2)+...
     ((1/(d(1)-8.9408))^2)+...
     ((1/(d(2)-5))^2)+...

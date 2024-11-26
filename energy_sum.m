@@ -6,7 +6,7 @@ function E_sum=energy_sum(trailsTheta,trailsX,v,gr,p,m)
     import power_total.*
     import trail_time.*
     E_sum=0;
-    power=power_total(trailsTheta,v,gr,p,m);
+    power=power_total(trailsTheta,trailsX, v,gr,p,m);
     trail_offset=trail_energy(trailsX,trailsTheta,m,p,v);
     time=trail_time(trailsX,v);
     for i=1:length(trailsTheta)

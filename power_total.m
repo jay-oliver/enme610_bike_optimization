@@ -1,5 +1,5 @@
 % This is the total of power, assuming the acceleration is equal to 0.
-function total_power=power_total(trailTheta_Array, V_roll, Gear_Ratio, Tire_Pressure, m_total)
+function total_power=power_total(trailTheta_Array, trailX_Array, V_roll, Gear_Ratio, Tire_Pressure, m_total)
     import c_roll_resist.*
     import eff_eval.*
 
@@ -8,6 +8,9 @@ function total_power=power_total(trailTheta_Array, V_roll, Gear_Ratio, Tire_Pres
     total_power=zeros(1,3);
     
     for i=1:1:3
+        if trailX_Array(i) == 0
+            V_roll = 0;
+        end
         % Power for acceleration (should we aim for this to be zero)
         accel=0; %Acceleration set to 0, we're just keeping formulation for reading reasons
         Pa = V_roll .* m_total * accel;

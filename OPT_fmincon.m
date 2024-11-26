@@ -35,7 +35,7 @@ di=[5,2.5,2.5];
 lb=[4.4704,0,2.41317];
 ub=[8.4908,5,4.13685];
 % blessedly simple fmincon()
-power_total_opt=@(d) sum(power_total(trailsTheta.(fields(test_i)),d(1),d(2),d(3),m))
+power_total_opt=@(d) sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m))
 options=optimset('Algorithm','active-set');
 % Opt_DV(1) is velocity
 % Opt_DV(2) is gear ratio
@@ -50,7 +50,7 @@ disp("  Optimal gear ratio (calculated): " + Opt_DV(2))
 disp("  Optimal tire pressure: " + Opt_DV(3) + " bars")
 disp("  Power used in each section:")
 
-Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m);
+Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), Opt_DV(1),Opt_DV(2),Opt_DV(3),m);
 
 disp("   Section 1: " + Optimal_Power_sections(1) + " W")
 disp("   Section 2: " + Optimal_Power_sections(2) + " W")
