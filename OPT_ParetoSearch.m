@@ -34,7 +34,7 @@ test_i=35;
 % d(1)=v_roll, d(2)=gr, d(3)=p
 di=[5,2.5,2.5];
 
-% Defining the lower and upper bounds 
+% Defining the lower and upper bounds of the variables
 lb=[4.4704,0,2.41317];
 ub=[8.4908,5,4.13685];
 
