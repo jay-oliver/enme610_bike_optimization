@@ -15,14 +15,14 @@ function total_power=power_total(trailTheta_Array, trailX_Array, V_roll, Gear_Ra
         accel=0; %Acceleration set to 0, we're just keeping formulation for reading reasons
         Pa = V_roll .* m_total * accel;
         % Power needed to roll
-        Pr = V_roll .* m_total * g .* c_roll_resist(Tire_Pressure,V_roll);
+        Pr = V_roll.* m_total * g .* c_roll_resist(Tire_Pressure,V_roll);
         % Power to overcome drag (Cd * A may be ~=1)
         Cd=1;
         A=1;
         Pd = (1/2) .* rho .* V_roll.^3 .* Cd .* A;
         % Power needed to go on a slope (s>0 means uphill)
         s=tand(trailTheta_Array(i));
-        Ps = V_roll .* m_total .* g .* s;
+        Ps = V_roll.* m_total .* g .* s;
         % Total power assembly, with user power
         % Pa==(P_user*(Eff_Eval(Gear_Ratio)/100)) - (Pd + Ps + Pr)
         % Assuming we want acceleration to be 0, here it the formulation to

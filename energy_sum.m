@@ -10,6 +10,7 @@ function E_sum=energy_sum(trailsTheta,trailsX,v,gr,p,m)
     trail_offset=trail_energy(trailsX,trailsTheta,m,p,v);
     time=trail_time(trailsX,v);
     for i=1:length(trailsTheta)
-        E_sum=E_sum+(power(i)*time(i))-trail_offset;
+        E_sum=E_sum+(power(i)*time(i));
     end
+    E_sum=E_sum-trail_offset;
 end

@@ -3,10 +3,11 @@
 clear
 clc
 % constants to test with 
-v = 18; % mph, target rolling velocity 
-v = v/2.237; % m/s
+%v = 12; % mph, target rolling velocity 
+%v = v/2.237; % m/sz
+v=5;
 GR=2.5; % Gear Ratio 
-p=60; %psi 
+p=2.5; %bar 
 m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
 
 % Loading the trail data file, to then pull out individual trails
@@ -41,12 +42,12 @@ Eff_test=eff_eval(GR)/100
 % Power, in Watts
 import power_total.*
 % v in m/s, GR in unitless, p in bar, m in kg
-Power_test=power_total(trailsTheta.(fields(test_i)),v,GR,p,m) %Spits out power in W
+Power_test=power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),v,GR,p,m) %Spits out power in W
 
 % Trail energy, the energy needed to get over our trails 
 import trail_energy.*
 % m is in kg, p is in psi, v is in m/s, value spits out as Joules
-TE_Ex=trail_energy(trailsX.(fields(test_i)),trailsTheta.(fields(test_i)),m,p,v) 
+TE_Ex=trail_energy(trailsX.(fields(1)),trailsTheta.(fields(1)),m,p,v) 
 
 % Time for each section of the trail 
 import trail_time.*
