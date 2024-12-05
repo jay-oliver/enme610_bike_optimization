@@ -55,7 +55,7 @@ for i=lb(1):0.1:ub(1)
 end
 e_avg=esum/(sz(1)*sz(2)*sz(3));
 
-power_total_opt=@(v,g,p) sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), v,g,p,m))
+power_total_opt=@(v,g,p) -1*sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), v,g,p,m))
 psum=0;
 for i=lb(1):0.1:ub(1)
     sz(1)=length(i);

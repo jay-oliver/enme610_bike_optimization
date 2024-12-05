@@ -39,7 +39,7 @@ ub=[8.4908,5,4.13685];
 
 % blessedly simple fminimax
 energy_total_opt=@(d) energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),d(1),d(2),d(3),m);
-power_total_opt=@(d) sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m))
+power_total_opt=@(d) -1*sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m))
 f_opt=@(d) [energy_total_opt(d),power_total_opt(d)];
 options=optimset('Algorithm','active-set');
 [Opt_DV,Opt_Objs]=fminimax(f_opt,di,[],[],[],[],lb,ub,@nonlincon,options)

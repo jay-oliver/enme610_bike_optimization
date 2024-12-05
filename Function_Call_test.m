@@ -40,8 +40,9 @@ import eff_eval.*
 Eff_test=eff_eval(GR)/100
 
 % Power, in Watts
+% power_total(Trail angle data (degrees), Trail distance data (m), velocity (m/s), gear ratio, tire
+% pressure (bar), mass (kg))
 import power_total.*
-% v in m/s, GR in unitless, p in bar, m in kg
 Power_test=power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),v,GR,p,m) %Spits out power in W
 
 % Trail energy, the energy needed to get over our trails 

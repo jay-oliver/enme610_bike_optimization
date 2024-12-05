@@ -32,21 +32,23 @@ test_i=35;
 
 % Using a matrix "d" where each element is a different variables 
 % d(1)=v_roll, d(2)=gr, d(3)=p
-di=[5,2.5,2.5];
+di=[5,2.5,3];
 
 % Defining the lower and upper bounds 
-lb=[4.4704,0,2.41317];
+lb=[4.4704,0.5,2.41317];
 ub=[8.4908,5,4.13685];
 
-% blessedly simple fminimax
+% Combine functions to feed into ParetoSearch fxn 
 energy_total_opt=@(d) energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),d(1),d(2),d(3),m);
-power_total_opt=@(d) sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m))
+power_total_opt=@(d) -1*sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m))
 f_opt=@(d) [energy_total_opt(d),power_total_opt(d)];
+
+% Set up options and results for pareto search 
 options = optimoptions('paretosearch','Display','iter', ...
     'PlotFcn','psplotparetof', ...
     'InitialPoints',di, ...
-    'MaxIterations',500, ...
-    'ParetoSetChangeTolerance',1e-6);
+    'MaxIterations',1000, ...
+    'ParetoSetChangeTolerance',1e-8);
 [Opt_DV,Opt_Objs]=paretosearch(f_opt,length(lb),[],[],[],[],lb,ub,@nonlincon,options);
 title(['Pareto Front for Trail ',num2str(test_i),' with initial point [',num2str(di),']'])
 xlabel('Energy Fxn (J)')
@@ -54,12 +56,12 @@ ylabel('Power (W)')
 
 % Now all the code to display the results all pretty-like 
 disp(" ")
-disp("  ====== Fminimax Results ======")
+disp("  ====== Pareto Search Results ======")
 disp(" ")
 disp("  Trail: Graduate Gardens to the Clarice")
-disp("  Optimal velocity: " + Opt_DV(1) + " m/s")
-disp("  Optimal gear ratio (calculated): " + Opt_DV(2))
-disp("  Optimal tire pressure: " + Opt_DV(3) + " bars")
+disp("  Optimal velocity: " + Opt_DV(1,1) + " m/s")
+disp("  Optimal gear ratio (calculated): " + Opt_DV(1,2))
+disp("  Optimal tire pressure: " + Opt_DV(1,3) + " bars")
 disp("  Power used in each section:")
 
 Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)), trailsX.(fields(test_i)), Opt_DV(1),Opt_DV(2),Opt_DV(3),m);
