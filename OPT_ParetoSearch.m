@@ -32,10 +32,10 @@ test_i=35;
 
 % Using a matrix "d" where each element is a different variables 
 % d(1)=v_roll, d(2)=gr, d(3)=p
-di=[5,2.5,3];
+di=[5,2.5,2.5];
 
-% Defining the lower and upper bounds 
-lb=[4.4704,0.5,2.41317];
+% Defining the lower and upper bounds of the variables
+lb=[4.4704,0,2.41317];
 ub=[8.4908,5,4.13685];
 
 % Combine functions to feed into ParetoSearch fxn 
@@ -48,8 +48,9 @@ options = optimoptions('paretosearch','Display','iter', ...
     'PlotFcn','psplotparetof', ...
     'InitialPoints',di, ...
     'MaxIterations',1000, ...
-    'ParetoSetChangeTolerance',1e-8);
-[Opt_DV,Opt_Objs]=paretosearch(f_opt,length(lb),[],[],[],[],lb,ub,@nonlincon,options);
+    'ParetoSetChangeTolerance',1e-8, ...
+    'ConstraintTolerance', 1e-9);
+[Opt_DV,Opt_Objs]=paretosearch(f_opt,length(lb),[],[],[],[],lb,ub,@nonlincon,options)
 title(['Pareto Front for Trail ',num2str(test_i),' with initial point [',num2str(di),']'])
 xlabel('Energy Fxn (J)')
 ylabel('Power (W)')
