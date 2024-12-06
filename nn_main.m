@@ -10,14 +10,14 @@ nn_fxn('trainbr');
         listx = [listx; xhat];
         listf= [listf; fhat];
     end
-        mu1 = sum(listx(:,1))/10
-        mu2 = sum(listx(:,2))/10
-        mu3 = sum(listx(:,3))/10
-        muf = sum(listf)/10
-        std1 = std(listx(:,1))
-        std2 = std(listx(:,2))
-        std3 = std(listx(:,3))
-        stdf = std(listf)
+        mu1 = sum(listx(:,1))/10;
+        mu2 = sum(listx(:,2))/10;
+        mu3 = sum(listx(:,3))/10;
+        muf = sum(listf)/10;
+        std1 = std(listx(:,1));
+        std2 = std(listx(:,2));
+        std3 = std(listx(:,3));
+        stdf = std(listf);
         disp(" ")
 disp("  ====== Bayesian Regularization MLAO Optimization Results ======")
 disp(" ")
