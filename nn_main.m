@@ -4,6 +4,8 @@ function f = NeuralNet
 f=0;
 listx = [];
 listf= [];
+%pass 'trainbr' for Bayesian Regularization, or 'trainlm" for
+%Levenberg-Marqhardt
 nn_fxn('trainbr');
     for i = 1:10
         [xhat, fhat] = Run_WithNN();
