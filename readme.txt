@@ -1,5 +1,8 @@
 README
-
+NN:
+First, run MLAO_Prep.m to generate training data. 
+Next, run nn1 and nn2 to train the two neural networks.
+Finally, optimize the results from each neural network in ______
 Scripts:
     CRR_Fit: Used to find the coefficients for the crr formula. Uses tabulated data from Bicycle Rolling Resistance
     C_Roll_Resist: Calculates the crr using the equation found in crr_fit. Takes in velocity and tire pressure
