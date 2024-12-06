@@ -80,13 +80,13 @@ end
 
 % Plots
 % Uncomment these lines to enable various plots.
-figure, plotperform(tr)
-subtitle([fancy_name,' Method'])
-figure, plottrainstate(tr)
-subtitle([fancy_name,' Method'])
-figure, ploterrhist(e)
-subtitle([fancy_name,' Method'])
-figure, plotregression(t,y)
-subtitle([fancy_name,' Method'])
+% figure, plotperform(tr)
+% subtitle([fancy_name,' Method'])
+% figure, plottrainstate(tr)
+% subtitle([fancy_name,' Method'])
+% figure, ploterrhist(e)
+% subtitle([fancy_name,' Method'])
+% figure, plotregression(t,y)
+% subtitle([fancy_name,' Method'])
 %figure, plotfit(net,x,t)
 end
