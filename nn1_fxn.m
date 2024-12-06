@@ -1,4 +1,4 @@
-% ===Constants===
+function nn=nn1_fxn(type)% ===Constants===
 % total mass
 m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
 import power_total.*
@@ -39,10 +39,13 @@ t = Y';
 
 % Choose a Training Function
 % For a list of all training functions type: help nntrain
-% 'trainlm' is usually fastest.
+% 'trainlm' is usually fastest. 
+% (Levenberg-Marquardt)
 % 'trainbr' takes longer but may be better for challenging problems.
-% 'trainscg' uses less memory. Suitable in low memory situations.
-trainFcn = 'trainbr';  % Levenberg-Marquardt backpropagation.
+% (Bayesian Regularization)
+% 'trainscg' uses less memory. Suitable in low memory situations. 
+% (Scaled Conjugate Gradient)
+trainFcn = type;  % Levenberg-Marquardt backpropagation.
 
 % Create a Fitting Network
 hiddenLayerSize = 50;
@@ -57,7 +60,7 @@ net.divideParam.testRatio = 15/100;
 [net,tr] = train(net,x,t);
 
 % Test the Network
-y = net(x)
+y = net(x);
 e = gsubtract(t,y);
 performance = perform(net,t,y)
 
@@ -66,11 +69,24 @@ save net
 % View the Network
 %view(net)
 
+switch type 
+    case 'trainlm'
+        fancy_name='Levenberg-Marqhardt';
+    case 'trainbr'
+        fancy_name='Bayesian Regularization'
+    case 'trainscg'
+        fancy_name='Scaled Conjugate Gradient'
+end
+
 % Plots
 % Uncomment these lines to enable various plots.
-%figure, plotperform(tr)
-%figure, plottrainstate(tr)
-%figure, ploterrhist(e)
-%figure, plotregression(t,y)
+figure, plotperform(tr)
+subtitle([fancy_name,' Method'])
+figure, plottrainstate(tr)
+subtitle([fancy_name,' Method'])
+figure, ploterrhist(e)
+subtitle([fancy_name,' Method'])
+figure, plotregression(t,y)
+subtitle([fancy_name,' Method'])
 %figure, plotfit(net,x,t)
-
+end

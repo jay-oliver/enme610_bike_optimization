@@ -2,7 +2,7 @@
 clear
 clc
 
-CdA_Vari=0.6:0.05:1.2; %CdA Variation
+CdA_Vari=0.6:0.025:1.2; %CdA Variation
 for CdA=CdA_Vari
     % ===Constants===
     % total mass

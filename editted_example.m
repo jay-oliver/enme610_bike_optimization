@@ -39,7 +39,7 @@ di=[5,2.5,2.5];
 
 % Defining the lower and upper bounds 
 % 1 is v, 2 is GR, 3 is P 
-lb=[4.4704,0,2.41317];
+lb=[4.4704,0.5,2.41317];
 ub=[8.4908,5,4.13685];
 
 options = optimset('Algorithm', 'active-set');
@@ -71,7 +71,8 @@ function f = y(x, nnModel)
 % Objective Function with single parameter passing (sigma)
 
 
-[f; g; h] = nnModel(x');
+f = sum(nnModel(x'))
+
 
 
 % Use this line to introduce a delay so simulate a long-running/complex function
@@ -79,7 +80,7 @@ function f = y(x, nnModel)
 
 end
 
-function [C,Ceq] = NonLinCon_NN(d, nnModel)
+function [c,ceq] = NonLinCon_NN(d, nnModel)
 % Function to evaluate the constraints for the problem.
 % Note that this function is in the form required by the built-in
 % optimization methods.
