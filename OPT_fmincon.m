@@ -4,7 +4,7 @@ clc
 
 % ===Constants===
 % total mass
-m=90+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
+m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
 CdA=1; %Characteristic area, found to be =1 for most cases
 import power_total.*
 import c_roll_resist.*
@@ -37,7 +37,7 @@ di=[5,2.5,2.5];
 lb=[4.4704,0,2.41317];
 ub=[8.4908,5,4.13685];
 % blessedly simple fmincon()
-power_total_opt=@(d) sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m,CdA))
+power_total_opt=@(d) -1*sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m,CdA))
 options=optimset('Algorithm','active-set');
 % Opt_DV(1) is velocity
 % Opt_DV(2) is gear ratio

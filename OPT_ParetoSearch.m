@@ -4,7 +4,7 @@ clc
 
 % ===Constants===
 % total mass
-m=90+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
+m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
 CdA=1; %Characteristic area, found to be =1 for most cases
 import power_total.*
 import c_roll_resist.*
@@ -29,14 +29,14 @@ import eff_eval.*
 load("Trail_Data.mat");
 fields = fieldnames(trailsX);
 fields = string(fields);
-test_i=35;
+test_i=12;
 
 % Using a matrix "d" where each element is a different variables 
 % d(1)=v_roll, d(2)=gr, d(3)=p
 di=[5,2.5,2.5];
 
 % Defining the lower and upper bounds of the variables
-lb=[4.4704,0,2.41317];
+lb=[4.4704,0.5,2.41317];
 ub=[8.4908,5,4.13685];
 
 % Combine functions to feed into ParetoSearch fxn 
@@ -52,7 +52,12 @@ options = optimoptions('paretosearch','Display','iter', ...
     'ParetoSetChangeTolerance',1e-8, ...
     'ConstraintTolerance', 1e-9);
 [Opt_DV,Opt_Objs]=paretosearch(f_opt,length(lb),[],[],[],[],lb,ub,@nonlincon,options)
+disp('Script Pausing! Pick an index point to show DVs for in the subtitle!')
 title(['Pareto Front for Trail ',num2str(test_i),' with initial point [',num2str(di),']'])
+oi=26; %picked out point from middle of curve
+subtitle(['Opt V is ',num2str(Opt_DV(oi,1)),newline, ...
+    'Opt GR is ',num2str(Opt_DV(oi,2)),newline, ...
+    'Opt p is ',num2str(Opt_DV(oi,3))])
 xlabel('Energy Fxn (J)')
 ylabel('Power (W)')
 
@@ -66,13 +71,15 @@ disp("  Optimal gear ratio (calculated): " + Opt_DV(1,2))
 disp("  Optimal tire pressure: " + Opt_DV(1,3) + " bars")
 disp("  Power used in each section:")
 
-Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)), trailsX.(fields(test_i)), Opt_DV(1),Opt_DV(2),Opt_DV(3),m,CdA);
+Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)), trailsX.(fields(test_i)), Opt_DV(1,1),Opt_DV(1,2),Opt_DV(1,3),m,CdA)
 
 disp("   Section 1: " + Optimal_Power_sections(1) + " W")
 disp("   Section 2: " + Optimal_Power_sections(2) + " W")
 disp("   Section 3: " + Optimal_Power_sections(3) + " W")
 
-Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m, 1);
+Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1,1),Opt_DV(1,2),Opt_DV(1,3),m, 1)
+TP=sum(Optimal_Power_sections)
+TE=sum(Optimal_Energy)
 
 % We are also defining the efficiency equation to max out at 100ish
 function [c,ceq] = nonlincon(d)

@@ -8,7 +8,7 @@ clc
 v=5;
 GR=2.5; % Gear Ratio 
 p=2.5; %bar 
-m=90+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
+m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
 CdA=1; %Characteristic area, found to be =1 for most cases
 
 % Loading the trail data file, to then pull out individual trails

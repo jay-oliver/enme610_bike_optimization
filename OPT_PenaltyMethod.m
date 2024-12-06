@@ -4,7 +4,7 @@ clc
 
 % ===Constants===
 % total mass
-m=90+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
+m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
 CdA=1; %Characteristic area, found to be =1 for most cases
 import power_total.*
 import c_roll_resist.*
@@ -67,7 +67,7 @@ disp("   Section 2: " + Optimal_Power_Sections(2) + " W")
 disp("   Section 3: " + Optimal_Power_Sections(3) + " W")
 %% Phi defined as a function so r can be modified 
 function phi=phi_r(r,test_i,trailsTheta,trailsX, m,CdA)
-    phi=@(d) sum(power_total(trailsTheta,trailsX, d(1),d(2),d(3),m,CdA)) + ...
+    phi=@(d) -1*sum(power_total(trailsTheta,trailsX, d(1),d(2),d(3),m,CdA)) + ...
     r*(((1/(4.4704-d(1)))^2)+...
     ((1/(d(1)-8.9408))^2)+...
     ((1/(d(2)-5))^2)+...
