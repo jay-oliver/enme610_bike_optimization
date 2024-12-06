@@ -25,7 +25,6 @@ Y=zeros(500, 3);
 for i = 1:length(x)
     Y(i,:) = power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), v(i), gr(i), p(i), m, 1);
 end
-Y = Y.';
 
 
 
