@@ -37,7 +37,7 @@ Parametric Study: There are many scripts here, basically duplicates of the base 
     "ParaMass_[method]" indicates it varies mass with the method in the name 
 
 NN:
-    Run nn_main in it's entirety, 
-    it calls nn1_fxn to train a function 
-    specified by "type" and generates the 
-    sample data to train and test it with.
+    Run nn_main in its entirety, it performs optimization on the neural network approximation of the power function.
+    Calls nn_fxn 10 times and calculates the mean and standard deviation
+    nn_fxn generates data for the neural network, then trains it.
+    The training algorithm should be specified in nn_main
