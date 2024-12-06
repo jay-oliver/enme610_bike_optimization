@@ -2,11 +2,12 @@
 clear
 clc
 
-CdA_Vari=0.6:0.05:1.2; %CdA Variation
-for CdA=CdA_Vari
+m_Vari=60:1:110; %CdA Variation
+for mp=m_Vari
     % ===Constants===
     % total mass
-    m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike
+    m=mp+13.6078; %mass for the person, 30lbs (13.6078kg) for a bike
+    CdA=1; % Characteristic Area Approximation
     import power_total.*
     import c_roll_resist.*
     import eff_eval.*
@@ -61,31 +62,32 @@ for CdA=CdA_Vari
     Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)), trailsX.(fields(test_i)), Opt_DV(1),Opt_DV(2),Opt_DV(3),m,CdA);
     Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m,CdA);
 
+    % Chart all the results
     figure(1)
     hold on
     title('Optimal Power v. Optimal Energy Pareto Chart')
-    subtitle('Black is CdA=0.6, White is CdA=1.2')
+    subtitle('Gray is mp=60, White is mp=110')
     xlabel('Optimal Energy (J)')
     ylabel('Negative Optimal Power (W)')
     plot(Opt_Objs(:,1),Opt_Objs(:,2), ...
         'o', ...
         'MarkerEdgeColor','black', ...
-        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
+        'MarkerFaceColor',[(1/110)*mp,(1/110)*mp,(1/110)*mp])
     
     figure(2)
     hold on
-    title('Velocity (min & max) v. Characteristic Area (Pareto Search)')
-    subtitle('Black is CdA=0.6, White is CdA=1.2')
-    xlabel('Characteristic Area')
-    ylabel('Rolling Velocity (m/s)')
-    plot(CdA,max(Opt_DV(:,1)), ...
+    title('Velocity (min & max) v. Person Mass (Pareto Search)')
+    subtitle('Gray is mp=60, White is mp=110')
+    xlabel('Person Mass (kg)')
+    ylabel('Optimal Velocity (m/s)')
+    plot(mp,max(Opt_DV(:,1)), ...
         'o', ...
         'MarkerEdgeColor','black', ...
-        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
-    plot(CdA,min(Opt_DV(:,1)), ...
+        'MarkerFaceColor',[(1/110)*mp,(1/110)*mp,(1/110)*mp])
+    plot(mp,min(Opt_DV(:,1)), ...
         'o', ...
         'MarkerEdgeColor','black', ...
-        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
+        'MarkerFaceColor',[(1/110)*mp,(1/110)*mp,(1/110)*mp])
 end
 
 

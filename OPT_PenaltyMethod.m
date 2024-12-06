@@ -45,13 +45,14 @@ Opt_DV_a=di;
 Opt_Phi_a=0;
 [Opt_DV_b,Opt_Phi_b]=fminunc(phi_r(r,test_i,trailsTheta.(fields(test_i)), trailsX.(fields(test_i)), m,CdA),di);
 while abs(Opt_DV_a(1)-Opt_DV_b(1))>=e || abs(Opt_DV_a(2)-Opt_DV_b(2))>=e || abs(Opt_DV_a(3)-Opt_DV_b(3))>=e
-    r=r*a
+    r=r*a;
     Opt_DV_a=Opt_DV_b;
     Opt_Phi_a=Opt_Phi_b;
     [Opt_DV_b,Opt_Phi_b]=fminunc(phi_r(r,test_i,trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), m,CdA),di);
 end
 Optimal_Design_Variables=Opt_DV_b;
 Optimal_Power_Sections=power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), Opt_DV_b(1),Opt_DV_b(2),Opt_DV_b(3),m,CdA);
+
 disp(" ")
 disp("  ====== Penalty Method Results ======")
 disp(" ")

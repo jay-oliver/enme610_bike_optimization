@@ -1,11 +1,12 @@
 % fmincon() Script
 clear
 clc
-CdA_Vari=0.6:0.025:1.2; %CdA Variation
-for CdA=CdA_Vari
+m_Vari=60:0.5:110; %CdA Variation
+for mp=m_Vari
     % ===Constants===
     % total mass
-    m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike
+    m=mp+13.6078; %mass for the person, 30lbs (13.6078kg) for a bike
+    CdA=1; % Characteristic Area Approximation
     import power_total.*
     import c_roll_resist.*
     import eff_eval.*
@@ -44,43 +45,44 @@ for CdA=CdA_Vari
     % Opt_DV(1) is velocity
     % Opt_DV(2) is gear ratio
     % Opt_DV(3) is tire pressure
-    [Opt_DV,Opt_Power]=fmincon(power_total_opt,di,[],[],[],[],lb,ub,@nonlincon,options);
+    [Opt_DV,Opt_Power]=fmincon(power_total_opt,di,[],[],[],[],lb,ub,@nonlincon,options)
 
     Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), Opt_DV(1),Opt_DV(2),Opt_DV(3),m,CdA);
     Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m,CdA);
     
+    %Chart Optimal Results
     figure(1)
     hold on
-    title('Optimal Power v. Characteristic Area (fmincon)')
-    subtitle('Black is CdA=0.6, White is CdA=1.2')
-    xlabel('Characteristic Area (m^2)')
+    title('Optimal Power v. Person Mass (fmincon)')
+    subtitle('Gray is mp=60, White is mp=110')
+    xlabel('Person mass (kg)')
     ylabel('Optimal Power (W)')
-    plot(CdA,Optimal_Power_sections,...
+    plot(mp,Optimal_Power_sections,...
         'o', ...
         'MarkerEdgeColor','black', ...
-        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
+        'MarkerFaceColor',[(1/110)*mp,(1/110)*mp,(1/110)*mp])
 
     figure(2)
     hold on
-    title('Optimal Energy v. Characteristic Area (fmincon)')
-    subtitle('Black is CdA=0.6, White is CdA=1.2')
-    xlabel('Characteristic Area (m^2)')
+    title('Optimal Energy v. Person Mass (fmincon)')
+    subtitle('Gray is mp=60, White is mp=110')
+    xlabel('Person mass (kg)')
     ylabel('Optimal Energy (J)')
-    plot(CdA,Optimal_Energy,...
+    plot(mp,Optimal_Energy,...
         'o', ...
         'MarkerEdgeColor','black', ...
-        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
+        'MarkerFaceColor',[(1/110)*mp,(1/110)*mp,(1/110)*mp])
 
     figure(3)
     hold on
-    title('Optimal Velocity v. Characteristic Area (fmincon)')
-    subtitle('Black is CdA=0.6, White is CdA=1.2')
-    xlabel('Characteristic Area (m^2)')
+    title('Velocity v. Person Mass (fmincon)')
+    subtitle('Black is mp=60, White is mp=110')
+    xlabel('Person mass (kg)')
     ylabel('Optimal Velocity (m/s)')
-    plot(CdA,Opt_DV(1),...
+    plot(mp,Opt_DV(1),...
         'o', ...
         'MarkerEdgeColor','black', ...
-        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
+        'MarkerFaceColor',[(1/110)*mp,(1/110)*mp,(1/110)*mp])
 end
 
 

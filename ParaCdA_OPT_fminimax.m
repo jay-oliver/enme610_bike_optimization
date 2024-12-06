@@ -1,11 +1,11 @@
 % fminimax script
 clear
 clc
-CdA_Vari=[0.6,0.8,1,1.2]; %CdA Variation
+CdA_Vari=0.6:0.025:1.2; %CdA Variation
 for CdA=CdA_Vari
     % ===Constants===
     % total mass
-    m=90+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike
+    m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike
     import power_total.*
     import c_roll_resist.*
     import eff_eval.*
@@ -43,23 +43,43 @@ for CdA=CdA_Vari
     power_total_opt=@(d) -1*sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m,CdA))
     f_opt=@(d) [energy_total_opt(d),power_total_opt(d)];
     options=optimset('Algorithm','active-set');
-    [Opt_DV,Opt_Objs]=fminimax(f_opt,di,[],[],[],[],lb,ub,@nonlincon,options)
-    disp(" ")
-    disp("  ====== Fminimax Results ======")
-    disp(" ")
-    disp("  Trail: Graduate Gardens to the Clarice")
-    disp("  Optimal velocity: " + Opt_DV(1) + " m/s")
-    disp("  Optimal gear ratio (calculated): " + Opt_DV(2))
-    disp("  Optimal tire pressure: " + Opt_DV(3) + " bars")
-    disp("  Power used in each section:")
+    [Opt_DV,Opt_Objs]=fminimax(f_opt,di,[],[],[],[],lb,ub,@nonlincon,options);
 
     Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)), trailsX.(fields(test_i)), Opt_DV(1),Opt_DV(2),Opt_DV(3),m,CdA);
-
-    disp("   Section 1: " + Optimal_Power_sections(1) + " W")
-    disp("   Section 2: " + Optimal_Power_sections(2) + " W")
-    disp("   Section 3: " + Optimal_Power_sections(3) + " W")
-
     Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m,CdA);
+
+    figure(1)
+    hold on
+    title('Optimal Power v. Characteristic Area (fminimax)')
+    subtitle('Black is CdA=0.6, White is CdA=1.2')
+    xlabel('Characteristic Area (m^2)')
+    ylabel('Optimal Power (W)')
+    plot(CdA,Optimal_Power_sections,...
+        'o', ...
+        'MarkerEdgeColor','black', ...
+        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
+
+    figure(2)
+    hold on
+    title('Optimal Energy v. Characteristic Area (fminimax)')
+    subtitle('Black is CdA=0.6, White is CdA=1.2')
+    xlabel('Characteristic Area (m^2)')
+    ylabel('Optimal Energy (J)')
+    plot(CdA,Optimal_Energy,...
+        'o', ...
+        'MarkerEdgeColor','black', ...
+        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
+
+    figure(3)
+    hold on
+    title('Optimal Velocity v. Characteristic Area (fminimax)')
+    subtitle('Black is CdA=0.6, White is CdA=1.2')
+    xlabel('Characteristic Area (m^2)')
+    ylabel('Optimal Velocity (m/s)')
+    plot(CdA,Opt_DV(1),...
+        'o', ...
+        'MarkerEdgeColor','black', ...
+        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
 end
 
 % We are also defining the efficiency equation to max out at 100ish

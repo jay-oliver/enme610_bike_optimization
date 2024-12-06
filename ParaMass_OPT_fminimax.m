@@ -1,12 +1,12 @@
 % fminimax script
 clear
 clc
-
-CdA_Vari=0.6:0.05:1.2; %CdA Variation
-for CdA=CdA_Vari
+m_Vari=60:1:110; %CdA Variation
+for mp=m_Vari
     % ===Constants===
     % total mass
-    m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike
+    m=mp+13.6078; %mass for the person, 30lbs (13.6078kg) for a bike
+    CdA=1; % Characteristic Area Approximation
     import power_total.*
     import c_roll_resist.*
     import eff_eval.*
@@ -35,59 +35,55 @@ for CdA=CdA_Vari
     % Using a matrix "d" where each element is a different variables
     % d(1)=v_roll, d(2)=gr, d(3)=p
     di=[5,2.5,2.5];
-
-    % Defining the lower and upper bounds of the variables
+    % Defining the lower and upper bounds
     lb=[4.4704,0,2.41317];
     ub=[8.4908,5,4.13685];
 
-    % Combine functions to feed into ParetoSearch fxn
+    % blessedly simple fminimax
     energy_total_opt=@(d) energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),d(1),d(2),d(3),m,CdA);
     power_total_opt=@(d) -1*sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m,CdA))
     f_opt=@(d) [energy_total_opt(d),power_total_opt(d)];
+    options=optimset('Algorithm','active-set');
+    [Opt_DV,Opt_Objs]=fminimax(f_opt,di,[],[],[],[],lb,ub,@nonlincon,options);
 
-    % Set up options and results for pareto search
-    hold on
-    options = optimoptions('paretosearch','Display','iter', ...
-        'InitialPoints',di, ...
-        'MaxIterations',1000, ...
-        'ParetoSetChangeTolerance',1e-8, ...
-        'ConstraintTolerance', 1e-9);
-    [Opt_DV,Opt_Objs]=paretosearch(f_opt,length(lb),[],[],[],[],lb,ub,@nonlincon,options);
-    title(['Pareto Front for Trail ',num2str(test_i),' with initial point [',num2str(di),']'])
-    xlabel('Energy Fxn (J)')
-    ylabel('Power (W)')
-
-    % Now all the code to display the results all pretty-like
     Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)), trailsX.(fields(test_i)), Opt_DV(1),Opt_DV(2),Opt_DV(3),m,CdA);
     Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m,CdA);
 
+    %Chart Optimal Results
     figure(1)
     hold on
-    title('Optimal Power v. Optimal Energy Pareto Chart')
-    subtitle('Black is CdA=0.6, White is CdA=1.2')
-    xlabel('Optimal Energy (J)')
-    ylabel('Negative Optimal Power (W)')
-    plot(Opt_Objs(:,1),Opt_Objs(:,2), ...
+    title('Optimal Power v. Person Mass (fminimax)')
+    subtitle('Gray is mp=60, White is mp=110')
+    xlabel('Person Mass (kg)')
+    ylabel('Optimal Power (W)')
+    plot(mp,Optimal_Power_sections,...
         'o', ...
         'MarkerEdgeColor','black', ...
-        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
-    
+        'MarkerFaceColor',[(1/110)*mp,(1/110)*mp,(1/110)*mp])
+
     figure(2)
     hold on
-    title('Velocity (min & max) v. Characteristic Area (Pareto Search)')
-    subtitle('Black is CdA=0.6, White is CdA=1.2')
-    xlabel('Characteristic Area')
-    ylabel('Rolling Velocity (m/s)')
-    plot(CdA,max(Opt_DV(:,1)), ...
+    title('Optimal Energy v. Characteristic Area (fminimax)')
+    subtitle('Gray is mp=60, White is mp=110')
+    xlabel('Person Mass (kg)')
+    ylabel('Optimal Energy (J)')
+    plot(mp,Optimal_Energy,...
         'o', ...
         'MarkerEdgeColor','black', ...
-        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
-    plot(CdA,min(Opt_DV(:,1)), ...
-        'o', ...
-        'MarkerEdgeColor','black', ...
-        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
-end
+        'MarkerFaceColor',[(1/110)*mp,(1/110)*mp,(1/110)*mp])
 
+    figure(3)
+    hold on
+    title('Optimal Velocity v. Person Mass (fminimax)')
+    subtitle('Black is mp=60, White is mp=110')
+    xlabel('Person Mass (kg)')
+    ylabel('Optimal Velocity (m/s)')
+    plot(mp,Opt_DV(1),...
+        'o', ...
+        'MarkerEdgeColor','black', ...
+        'MarkerFaceColor',[(1/110)*mp,(1/110)*mp,(1/110)*mp])
+
+end
 
 % We are also defining the efficiency equation to max out at 100ish
 function [c,ceq] = nonlincon(d)

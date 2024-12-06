@@ -1,11 +1,13 @@
 % Vector optimization script
 clear
 clc
-CdA_Vari=0.6:0.025:1.2; %CdA Variation
-for CdA=CdA_Vari
+
+m_Vari=60:1:110; %CdA Variation
+for mp=m_Vari
     % ===Constants===
     % total mass
-    m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike
+    m=mp+13.6078; %mass for the person, 30lbs (13.6078kg) for a bike
+    CdA=1; % Characteristic Area Approximation
     import power_total.*
     import c_roll_resist.*
     import eff_eval.*
@@ -79,36 +81,36 @@ for CdA=CdA_Vari
     
     figure(1)
     hold on
-    title('Optimal Power v. Characteristic Area (Scalarized)')
-    subtitle('Black is CdA=0.6, White is CdA=1.2')
-    xlabel('Characteristic Area (m^2)')
+    title('Optimal Power v. Person Mass (Scalarized)')
+    subtitle('Gray is mp=60, White is mp=110')
+    xlabel('Person Mass (kg)')
     ylabel('Optimal Power (W)')
-    plot(CdA,Optimal_Power_sections, ...
+    plot(mp,Optimal_Power_sections, ...
         'o', ...
         'MarkerEdgeColor','black', ...
-        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
+        'MarkerFaceColor',[(1/110)*mp,(1/110)*mp,(1/110)*mp])
 
     figure(2)
     hold on
-    title('Optimal Energy v. Characteristic Area (Scalarized)')
-    subtitle('Black is CdA=0.6, White is CdA=1.2')
-    xlabel('Characteristic Area (m^2)')
+    title('Optimal Energy v. Person Mass (Scalarized)')
+    subtitle('Gray is mp=60, White is mp=110')
+    xlabel('Person Mass (kg)')
     ylabel('Optimal Energy (J)')
-    plot(CdA,Optimal_Energy, ...
+    plot(mp,Optimal_Energy, ...
         'o', ...
         'MarkerEdgeColor','black', ...
-        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
+        'MarkerFaceColor',[(1/110)*mp,(1/110)*mp,(1/110)*mp])
 
     figure(3)
     hold on
-    title('Optimal Velocity v. Characteristic Area (fminimax)')
-    subtitle('Black is CdA=0.6, White is CdA=1.2')
-    xlabel('Characteristic Area (m^2)')
+    title('Optimal Velocity v. Person Mass (Scalarized)')
+    subtitle('Gray is mp=60, White is mp=110')
+    xlabel('Person Mass (kg)')
     ylabel('Optimal Velocity (m/s)')
-    plot(CdA,Opt_DV(1),...
+    plot(mp,Opt_DV(1), ...
         'o', ...
         'MarkerEdgeColor','black', ...
-        'MarkerFaceColor',[(1/1.2)*CdA,(1/1.2)*CdA,(1/1.2)*CdA])
+        'MarkerFaceColor',[(1/110)*mp,(1/110)*mp,(1/110)*mp])
 end
 
 % We are also defining the efficiency equation to max out at 100ish
