@@ -31,7 +31,7 @@ import eff_eval.*
 load("Trail_Data.mat");
 fields = fieldnames(trailsX);
 fields = string(fields);
-test_i=35;
+test_i=12;
 
 % Using a matrix "d" where each element is a different variables 
 % d(1)=v_roll, d(2)=gr, d(3)=p

@@ -27,7 +27,7 @@ for CdA=CdA_Vari
     load("Trail_Data.mat");
     fields = fieldnames(trailsX);
     fields = string(fields);
-    test_i=35;
+    test_i=27;
 
     % Using a matrix "d" where each element is a different variables
     % d(1)=v_roll, d(2)=gr, d(3)=p
@@ -35,11 +35,11 @@ for CdA=CdA_Vari
 
     % Defining the lower and upper bounds
     % 1 is v, 2 is GR, 3 is P
-    lb=[4.4704,0,2.41317];
+    lb=[4.4704,0.5,2.41317];
     ub=[8.4908,5,4.13685];
 
     % blessedly simple fmincon()
-    power_total_opt=@(d) sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m,CdA))
+    power_total_opt=@(d) -1*sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m,CdA))
     options=optimset('Algorithm','active-set');
     % Opt_DV(1) is velocity
     % Opt_DV(2) is gear ratio

@@ -1,7 +1,7 @@
 % fmincon() Script
 clear
 clc
-m_Vari=60:0.5:110; %CdA Variation
+m_Vari=60:0.5:110; %Mass Variation
 for mp=m_Vari
     % ===Constants===
     % total mass
@@ -28,7 +28,7 @@ for mp=m_Vari
     load("Trail_Data.mat");
     fields = fieldnames(trailsX);
     fields = string(fields);
-    test_i=35;
+    test_i=27;
 
     % Using a matrix "d" where each element is a different variables
     % d(1)=v_roll, d(2)=gr, d(3)=p
@@ -40,7 +40,7 @@ for mp=m_Vari
     ub=[8.4908,5,4.13685];
 
     % blessedly simple fmincon()
-    power_total_opt=@(d) sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m,CdA))
+    power_total_opt=@(d) -1*sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), d(1),d(2),d(3),m,CdA))
     options=optimset('Algorithm','active-set');
     % Opt_DV(1) is velocity
     % Opt_DV(2) is gear ratio
