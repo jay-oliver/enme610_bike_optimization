@@ -1,5 +1,5 @@
 % This is the total of power, assuming the acceleration is equal to 0.
-function total_power=power_total(trailTheta_Array, trailX_Array, V_roll, Gear_Ratio, Tire_Pressure, m_total)
+function total_power=power_total(trailTheta_Array, trailX_Array, V_roll, Gear_Ratio, Tire_Pressure, m_total,CdA)
     import c_roll_resist.*
     import eff_eval.*
 
@@ -17,9 +17,7 @@ function total_power=power_total(trailTheta_Array, trailX_Array, V_roll, Gear_Ra
         % Power needed to roll
         Pr = V_roll.* m_total * g .* c_roll_resist(Tire_Pressure,V_roll);
         % Power to overcome drag (Cd * A may be ~=1)
-        Cd=1;
-        A=1;
-        Pd = (1/2) .* rho .* V_roll.^3 .* Cd .* A;
+        Pd = (1/2) .* rho .* V_roll.^3 .* CdA;
         % Power needed to go on a slope (s>0 means uphill)
         s=tand(trailTheta_Array(i));
         Ps = V_roll.* m_total .* g .* s;

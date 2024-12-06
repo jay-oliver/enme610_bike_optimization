@@ -4,7 +4,8 @@ clc
 
 % ===Constants===
 % total mass
-m=70+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
+m=90+13.6078; %70kg for the person, 30lbs (13.6078kg) for a bike 
+CdA=1; %Characteristic area, found to be =1 for most cases
 import power_total.*
 import c_roll_resist.*
 import eff_eval.*
@@ -41,7 +42,7 @@ ub=[8.4908,5,4.13685];
 
 % cursedly non-simple normalization and scalarization
 % sloppy normalization, but it works for our fxns
-energy_total_opt=@(v,g,p) energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),v,g,p,m);
+energy_total_opt=@(v,g,p) energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),v,g,p,m,CdA);
 esum=0;
 for i=lb(1):0.1:ub(1)
     sz(1)=length(i);
@@ -55,7 +56,7 @@ for i=lb(1):0.1:ub(1)
 end
 e_avg=esum/(sz(1)*sz(2)*sz(3));
 
-power_total_opt=@(v,g,p) -1*sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), v,g,p,m))
+power_total_opt=@(v,g,p) -1*sum(power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), v,g,p,m,CdA))
 psum=0;
 for i=lb(1):0.1:ub(1)
     sz(1)=length(i);
@@ -73,8 +74,8 @@ f_opt=@(d) (5e-1*(1/e_avg)*energy_total_opt(d(1),d(2),d(3)))+(5e-1*(1/p_avg)*pow
 options=optimset('PlotFcn','optimplotFval');
 [Opt_DV,Opt_Objs]=fmincon(f_opt,di,[],[],[],[],lb,ub,@nonlincon,options)
 
-Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), Opt_DV(1),Opt_DV(2),Opt_DV(3),m);
-Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m);
+Optimal_Power_sections=power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), Opt_DV(1),Opt_DV(2),Opt_DV(3),m,CdA);
+Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m,CdA);
 disp(" ")
 disp("  ====== Scalarization Results ======")
 disp(" ")
