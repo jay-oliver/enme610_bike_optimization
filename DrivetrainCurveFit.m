@@ -5,7 +5,6 @@ clear
 clc
 
 %% First, make an eq with power and gear ratio as a proof of concept 
-% Yes this is sloppy, stfu
 % Define arrays with all the good stuff 
 Gear_Ratio=[0.6471,0.8462,0.9412,1.1000,1.2308,1.2941,1.3750,1.6000,1.6923,1.8333,2.0000,2.2000,2.6667,2.7500,3.6667];
 Gear_Ratio=[Gear_Ratio,Gear_Ratio,Gear_Ratio];
