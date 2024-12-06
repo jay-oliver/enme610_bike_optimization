@@ -72,7 +72,7 @@ disp("   Section 1: " + Optimal_Power_sections(1) + " W")
 disp("   Section 2: " + Optimal_Power_sections(2) + " W")
 disp("   Section 3: " + Optimal_Power_sections(3) + " W")
 
-Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m);
+Optimal_Energy=energy_sum(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)),Opt_DV(1),Opt_DV(2),Opt_DV(3),m, 1);
 
 % We are also defining the efficiency equation to max out at 100ish
 function [c,ceq] = nonlincon(d)

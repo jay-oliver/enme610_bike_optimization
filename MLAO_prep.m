@@ -21,11 +21,10 @@ p = x(:,3)*ub(3)/lb(3) + lb(3);
 x = [v gr p];
 
 %Generate total power for trail i given the generated variable values
-Y=double.empty([500, 0]);
+Y=zeros(500, 3);
 for i = 1:length(x)
-    Y(i) = power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), v(i), gr(i), p(i), m);
+    Y(i,:) = power_total(trailsTheta.(fields(test_i)),trailsX.(fields(test_i)), v(i), gr(i), p(i), m, 1);
 end
-Y = Y.';
 
 
 
